@@ -21,7 +21,7 @@ class Alimento {
   }
 
   String get info {
-    return 'P: ${proteina}g | C: ${carboidrato}g | G: ${gordura}g';
+    return 'Pro: ${proteina}g | Car: ${carboidrato}g | Gor: ${gordura}g';
   }
 
   Alimento({

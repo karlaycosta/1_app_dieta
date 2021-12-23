@@ -45,8 +45,12 @@ class _SearchState extends State<Search> {
           IconButton(
             icon: const Icon(Icons.cancel_rounded),
             onPressed: () {
-              _controller.text = '';
-              _focus.requestFocus();
+              if (_controller.text.isEmpty) {
+                Navigator.pop(context);
+              } else {
+                _controller.text = '';
+                _focus.requestFocus();
+              }
             },
           ),
         ],
@@ -60,7 +64,7 @@ class _SearchState extends State<Search> {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'Erro ao fazer a consulta',
+                    'Ocorreu um erro!',
                     style: TextStyle(
                       fontSize: 28,
                       color: Theme.of(context).colorScheme.error,
@@ -72,33 +76,30 @@ class _SearchState extends State<Search> {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return const LinearProgressIndicator();
             }
-            final data = snapshot.data!;
-            if (data.isEmpty && _controller.text.length >= 3) {
+            final listaAlimentos = snapshot.data!;
+            if (listaAlimentos.isEmpty && _controller.text.length >= 3) {
               return const Align(
                 alignment: Alignment.topCenter,
                 child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Text(
-                    'Nenhum resultado encontrado!',
+                    'Nenhum resultado!',
                     style: TextStyle(
-                      fontSize: 22,
+                      fontSize: 28,
                     ),
                   ),
                 ),
               );
             }
-            return ListView.separated(
-              itemCount: data.length,
+            return ListView.builder(
+              itemCount: listaAlimentos.length,
               itemBuilder: (context, index) {
-                final alimento = data[index];
+                final alimento = listaAlimentos[index];
                 return ListTile(
                   title: Text(alimento.nome),
+                  subtitle: Text(alimento.info),
                 );
               },
-              separatorBuilder: (context, index) => const Divider(
-                height: 0,
-                thickness: 1,
-              ),
             );
           }),
     );
