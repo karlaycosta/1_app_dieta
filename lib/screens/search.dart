@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/repositorio/repositorio.dart';
 import 'package:app_dieta/repositorio/repositorio_servidor.dart';
+import 'package:app_dieta/repositorio/repositorio_supa.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -59,7 +60,7 @@ class _SearchState extends State<Search> {
         ],
       ),
       body: FutureBuilder<List<Alimento>>(
-          future: _repositorio.getAlimentos(),
+          future: _repositorio.getAlimentosFiltrados(_controller.text),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Align(
@@ -106,29 +107,5 @@ class _SearchState extends State<Search> {
             );
           }),
     );
-  }
-
-  Future<List<Alimento>> getData() async {
-    final alimentos = <Alimento>[];
-    if (_controller.text.length >= 3) {
-      final res = await Supabase.instance.client
-          // .from('alimentos')
-          // .select()
-          // .ilike('nome', '%${_controller.text}%')
-          .rpc('search', params: {'value': '%${_controller.text}%'}).execute();
-      if (res.error != null) {
-        log(
-          'Erro na consulta',
-          name: 'App Dieta',
-          error: res.error,
-        );
-      } else {
-        final data = res.data as List;
-        for (var item in data) {
-          alimentos.add(Alimento.fromJson(item));
-        }
-      }
-    }
-    return alimentos;
   }
 }
