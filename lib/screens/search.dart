@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:app_dieta/models/alimento.dart';
+import 'package:app_dieta/repositorio/repositorio.dart';
+import 'package:app_dieta/repositorio/repositorio_servidor.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -14,6 +16,7 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
+  final Repositorio _repositorio = RepositorioServidor();
 
   @override
   void dispose() {
@@ -56,7 +59,7 @@ class _SearchState extends State<Search> {
         ],
       ),
       body: FutureBuilder<List<Alimento>>(
-          future: getData(),
+          future: _repositorio.getAlimentos(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Align(
