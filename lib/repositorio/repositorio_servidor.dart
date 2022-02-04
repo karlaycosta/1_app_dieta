@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 class RepositorioServidor extends Repositorio {
   @override
   Future<List<Alimento>> getAlimentos() async {
-    final res = await http.get(Uri.parse('http://localhost:8080/alimentos'));
+    final res = await http.get(Uri.parse('https://570b-2804-214-81bb-d3-21ca-669c-fd11-243d.sa.ngrok.io/alimentos'));
     final list = jsonDecode(res.body);
     final listaFinal = <Alimento>[];
     for (var item in list) {
@@ -19,7 +19,7 @@ class RepositorioServidor extends Repositorio {
 
   @override
   Future<List<Alimento>> getAlimentosFiltrados(String predicado) async {
-    final res = await http.get(Uri.parse('http://localhost:8080/alimentosfiltrados/$predicado'));
+    final res = await http.get(Uri.parse('https://570b-2804-214-81bb-d3-21ca-669c-fd11-243d.sa.ngrok.io/alimentosfiltrados/$predicado'));
     final list = jsonDecode(res.body);
     final listaFinal = <Alimento>[];
     for (var item in list) {
