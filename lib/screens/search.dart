@@ -1,11 +1,7 @@
-import 'dart:developer';
-
 import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/repositorio/repositorio.dart';
-import 'package:app_dieta/repositorio/repositorio_servidor.dart';
 import 'package:app_dieta/repositorio/repositorio_supa.dart';
 import 'package:flutter/material.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -17,14 +13,13 @@ class Search extends StatefulWidget {
 class _SearchState extends State<Search> {
   final _controller = TextEditingController();
   final _focus = FocusNode();
-  final Repositorio _repositorio = RepositorioServidor();
+  final Repositorio _repositorio = RepositorioSupa();
 
   @override
   void dispose() {
     _controller.dispose();
     super.dispose();
   }
-
 
   @override
   Widget build(BuildContext context) {

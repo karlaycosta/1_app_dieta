@@ -1,13 +1,16 @@
 import 'dart:convert';
 
+import 'package:app_dieta/models/texto.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print('object');
+    final texto = Texto(value: 'Data');
     return Scaffold(
       appBar: AppBar(
         title: const Text('App Dieta'),
@@ -20,32 +23,33 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: FutureBuilder<String>(
-        future: teste(),
-        builder: (context, snapshot) {
-
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const LinearProgressIndicator();
-          }
-          final teste = snapshot.data!;
-          return ListView.separated(
-            itemCount: 1,
-            itemBuilder: (context, index) {
-              return ListTile(
-                title: Text(teste),
-              );
-            },
-            separatorBuilder: (context, index) => const Divider(),
-          );
-        },
+      body: Center(
+        child: Column(
+          children: [
+            ValueListenableBuilder<String>(
+              valueListenable: texto,
+              builder: (context, value, child) {
+                return Text(value,
+                    style: TextStyle(
+                      fontSize: 38,
+                    ));
+              },
+            ),
+            ElevatedButton(
+              child: Text('teste'),
+              onPressed: () async {
+                final res = await get(Uri.parse('http://localhost:8080/teste'));
+                final lista = jsonDecode(res.body);
+                final aluno1 = lista[0]['nome1'];
+                final aluno2 = lista[1]['nome2'];
+                print(aluno1);
+                print(aluno2);
+                // texto.value = 'Novo Valor';
+              },
+            ),
+          ],
+        ),
       ),
     );
-  }
-
-  Future<String> teste() async {
-    final res = await http.get(Uri.parse(
-        'https://570b-2804-214-81bb-d3-21ca-669c-fd11-243d.sa.ngrok.io/teste'));
-    final list = jsonDecode(res.body);
-    return list['nome'];
   }
 }
