@@ -2,6 +2,7 @@ import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/repositorio/repositorio.dart';
 import 'package:app_dieta/repositorio/repositorio_supa.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
@@ -91,15 +92,21 @@ class _SearchState extends State<Search> {
                 ),
               );
             }
-            return ListView.builder(
+            return ListView.separated(
               itemCount: listaAlimentos.length,
               itemBuilder: (context, index) {
                 final alimento = listaAlimentos[index];
                 return ListTile(
                   title: Text(alimento.nome),
                   subtitle: Text(alimento.info),
+                  onTap: () {
+                    Navigator.pop(context, alimento);
+                  },
                 );
               },
+              separatorBuilder: (context, index) => const Divider(
+                height: 0,
+              ),
             );
           }),
     );
