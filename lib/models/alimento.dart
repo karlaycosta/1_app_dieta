@@ -84,4 +84,22 @@ class Alimento {
   String toString() {
     return 'ID: ${id ?? '*'} - $nome\nQuantidade: ${qtdBase}g\nProteina: ${proteina}g\nCarboidrato: ${carboidrato}g\nGordura: ${gordura}g\ng - Saturada: ${gSaturada}g\n - Trans: ${gTrans}g\nFibra: ${fibra}g\nSódio: ${sodio}mg\n';
   }
+
+  Alimento copyWith({required double qtdBase}) {
+    return Alimento(
+      id: id,
+      nome: nome,
+      qtdBase: qtdBase,
+      categoria: categoria,
+      proteina: proteina,
+      carboidrato: carboidrato,
+      gordura: gordura,
+      gSaturada: gSaturada,
+      gTrans: gTrans,
+      fibra: fibra,
+      sodio: sodio,
+      criacao: criacao,
+      atualizacao: atualizacao,
+    );
+  }
 }

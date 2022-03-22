@@ -1,5 +1,6 @@
 import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/models/refeicao.dart';
+import 'package:app_dieta/screens/edit_page.dart';
 import 'package:app_dieta/screens/search.dart';
 import 'package:flutter/material.dart';
 
@@ -35,11 +36,10 @@ class HomePage extends StatelessWidget {
             children: [
               Container(
                 height: 200,
-                width: double.maxFinite,
                 color: Colors.green,
                 child: Center(
                   child: Text(
-                    '${refeicao.calorias()}',
+                    '${refeicao.calorias()} Kcal',
                     style: const TextStyle(
                       fontSize: 64,
                       color: Colors.white,
@@ -58,12 +58,20 @@ class HomePage extends StatelessWidget {
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${alimento.calorias}',
+                      '${alimento.qtdBase} g | ${alimento.calorias} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
+                    onTap: () async {
+                      // aguarda o novo valor do alimento
+                      final res = await Navigator.of(context).push<Alimento>(
+                        MaterialPageRoute(builder: (context) => EditPage(alimento: alimento)),
+                      );
+                      print(res);
+                      refeicao.replace(res);
+                    },
                   );
                 },
-                separatorBuilder: (context, index) => const Divider(),
+                separatorBuilder: (context, index) => const Divider(height: 0),
               ),
             ],
           );
