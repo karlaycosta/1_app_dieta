@@ -2,6 +2,7 @@ import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/models/refeicao.dart';
 import 'package:app_dieta/screens/edit_page.dart';
 import 'package:app_dieta/screens/search.dart';
+import 'package:app_dieta/utils/helper.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -39,7 +40,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.green,
                 child: Center(
                   child: Text(
-                    '${refeicao.calorias()} Kcal',
+                    '${formatarNumero(refeicao.calorias())} Kcal',
                     style: const TextStyle(
                       fontSize: 64,
                       color: Colors.white,
@@ -58,7 +59,7 @@ class HomePage extends StatelessWidget {
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${alimento.qtdBase} g | ${alimento.calorias} Kcal',
+                      '${formatarNumero(alimento.qtdBase)} g | P: ${formatarNumero(alimento.proteinaR)} | C: ${alimento.carboidratoR} | G: ${alimento.gorduraR} | ${alimento.calorias} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
                     onTap: () async {
@@ -66,8 +67,8 @@ class HomePage extends StatelessWidget {
                       final res = await Navigator.of(context).push<Alimento>(
                         MaterialPageRoute(builder: (context) => EditPage(alimento: alimento)),
                       );
-                      print(res);
-                      refeicao.replace(res);
+                      // Troca o alimento com base no indice
+                      refeicao.trocar(index, res);
                     },
                   );
                 },

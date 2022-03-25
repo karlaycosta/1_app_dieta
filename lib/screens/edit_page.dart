@@ -57,7 +57,6 @@ class EditPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  print(alimento.qtdBase);
                   if (valor.value.qtdBase - 10 > 0) {
                     valor.value = valor.value.copyWith(
                       qtdBase: valor.value.qtdBase - 10,

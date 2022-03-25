@@ -13,6 +13,10 @@ class Alimento {
   final DateTime criacao; // Data e hora da criação do registro
   final DateTime? atualizacao; // Data e hora da última atualização do registro
 
+  double get proteinaR => _arredondar(proteina);
+  double get carboidratoR => _arredondar(carboidrato);
+  double get gorduraR => _arredondar(gordura);
+
   double get calorias {
     final p = proteina == 0 ? 1.0 : proteina;
     final c = carboidrato == 0 ? 1.0 : carboidrato;
@@ -80,6 +84,10 @@ class Alimento {
     );
   }
 
+  double _arredondar(double valor) {
+    return double.parse(valor.toStringAsFixed(2));
+  }
+
   @override
   String toString() {
     return 'ID: ${id ?? '*'} - $nome\nQuantidade: ${qtdBase}g\nProteina: ${proteina}g\nCarboidrato: ${carboidrato}g\nGordura: ${gordura}g\ng - Saturada: ${gSaturada}g\n - Trans: ${gTrans}g\nFibra: ${fibra}g\nSódio: ${sodio}mg\n';
@@ -91,13 +99,14 @@ class Alimento {
       nome: nome,
       qtdBase: qtdBase,
       categoria: categoria,
-      proteina: proteina,
-      carboidrato: carboidrato,
-      gordura: gordura,
-      gSaturada: gSaturada,
-      gTrans: gTrans,
-      fibra: fibra,
-      sodio: sodio,
+      proteina: (proteina * qtdBase) / this.qtdBase,
+      carboidrato: (carboidrato * qtdBase) / this.qtdBase,
+      gordura: (gordura * qtdBase) / this.qtdBase,
+      gSaturada:
+          gSaturada == null ? null : (gSaturada! * qtdBase) / this.qtdBase,
+      gTrans: gTrans == null ? null : (gTrans! * qtdBase) / this.qtdBase,
+      fibra: fibra == null ? null : (fibra! * qtdBase) / this.qtdBase,
+      sodio: sodio == null ? null : (sodio! * qtdBase) / this.qtdBase,
       criacao: criacao,
       atualizacao: atualizacao,
     );

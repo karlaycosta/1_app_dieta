@@ -9,16 +9,14 @@ class Refeicao extends ValueNotifier<List<Alimento>> {
     notifyListeners();
   }
 
-  void replace(Alimento? alimento) {
-    print('object');
-    if (value.contains(alimento)) {
-      print('object');
-      // Testa se o ID do alimento é diferente de nulo
-        final indice = value.indexWhere((interno) => interno.id == alimento!.id);
-        if (alimento!.qtdBase != value[indice].qtdBase) {
-          value[indice] = alimento;
-          notifyListeners();
-        }
+  /// Troca o alimento na lista interna com base no
+  /// indice.
+  void trocar(int indice, Alimento? alimento) {
+    if (alimento != null) {
+      if (alimento.qtdBase != value[indice].qtdBase) {
+        value[indice] = alimento;
+        notifyListeners();
+      }
     }
   }
 

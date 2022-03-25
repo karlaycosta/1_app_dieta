@@ -1,4 +1,3 @@
-import 'package:app_dieta/screens/edit_page.dart';
 import 'package:app_dieta/screens/home_page.dart';
 import 'package:app_dieta/screens/search.dart';
 import 'package:flutter/material.dart';

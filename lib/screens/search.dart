@@ -2,7 +2,6 @@ import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/repositorio/repositorio.dart';
 import 'package:app_dieta/repositorio/repositorio_supa.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class Search extends StatefulWidget {
   const Search({Key? key}) : super(key: key);
