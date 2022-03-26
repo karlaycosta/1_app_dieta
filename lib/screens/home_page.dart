@@ -1,4 +1,5 @@
 import 'package:app_dieta/models/alimento.dart';
+import 'package:app_dieta/models/dieta.dart';
 import 'package:app_dieta/models/refeicao.dart';
 import 'package:app_dieta/screens/edit_page.dart';
 import 'package:app_dieta/screens/search.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final refeicao = Refeicao();
+    final dieta = Dieta();
     return Scaffold(
       appBar: AppBar(
         title: const Text('App Dieta'),
@@ -40,7 +42,7 @@ class HomePage extends StatelessWidget {
                 color: Colors.green,
                 child: Center(
                   child: Text(
-                    '${formatarNumero(refeicao.calorias())} Kcal',
+                    '${formatarNumero(refeicao.calorias)} Kcal',
                     style: const TextStyle(
                       fontSize: 64,
                       color: Colors.white,
@@ -65,11 +67,22 @@ class HomePage extends StatelessWidget {
                     onTap: () async {
                       // aguarda o novo valor do alimento
                       final res = await Navigator.of(context).push<Alimento>(
-                        MaterialPageRoute(builder: (context) => EditPage(alimento: alimento)),
+                        MaterialPageRoute(
+                            builder: (context) => EditPage(alimento: alimento)),
                       );
                       // Troca o alimento com base no indice
                       refeicao.trocar(index, res);
                     },
+                    trailing: IconButton(
+                      icon: const Icon(
+                        Icons.delete_forever_rounded,
+                        size: 38,
+                        color: Colors.redAccent,
+                      ),
+                      onPressed: () {
+                        refeicao.remove(alimento);
+                      },
+                    ),
                   );
                 },
                 separatorBuilder: (context, index) => const Divider(height: 0),

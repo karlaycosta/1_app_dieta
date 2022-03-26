@@ -4,9 +4,28 @@ import 'package:flutter/cupertino.dart';
 class Refeicao extends ValueNotifier<List<Alimento>> {
   Refeicao() : super(<Alimento>[]);
 
+  double get calorias {
+    double calorias = 0;
+    for (final alimento in value) {
+      calorias += alimento.calorias;
+    }
+    return calorias;
+  }
+
+  /// Adiciona um alimento na lista
+  /// e notifica seus ouvintes
   void add(Alimento alimento) {
     value.add(alimento);
     notifyListeners();
+  }
+
+  bool remove(Alimento alimento) {
+    if (value.remove(alimento)) {
+      notifyListeners();
+      return true;
+    } else {
+      return false;
+    }
   }
 
   /// Troca o alimento na lista interna com base no
@@ -18,14 +37,6 @@ class Refeicao extends ValueNotifier<List<Alimento>> {
         notifyListeners();
       }
     }
-  }
-
-  double calorias() {
-    double calorias = 0;
-    for (final alimento in value) {
-      calorias += alimento.calorias;
-    }
-    return calorias;
   }
 
   double proteinas() {
