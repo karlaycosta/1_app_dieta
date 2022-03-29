@@ -1,7 +1,9 @@
 import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/models/dieta.dart';
+import 'package:app_dieta/models/info_nutricional.dart';
+import 'package:app_dieta/models/reativa.dart';
 import 'package:app_dieta/models/refeicao.dart';
-import 'package:app_dieta/screens/edit_page.dart';
+import 'package:app_dieta/screens/editar_alimentos.dart';
 import 'package:app_dieta/screens/search.dart';
 import 'package:app_dieta/utils/helper.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final refeicao = Refeicao();
     final dieta = Dieta();
+    print(dieta is InfoNutricional);
     return Scaffold(
       appBar: AppBar(
         title: const Text('App Dieta'),
@@ -26,7 +29,7 @@ class HomePage extends StatelessWidget {
                 ),
               );
               if (alimento != null) {
-                refeicao.add(alimento);
+                refeicao.adicionar(alimento);
               }
             },
           ),
@@ -61,14 +64,14 @@ class HomePage extends StatelessWidget {
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${formatarNumero(alimento.qtdBase)} g | P: ${formatarNumero(alimento.proteinaR)} | C: ${alimento.carboidratoR} | G: ${alimento.gorduraR} | ${alimento.calorias} Kcal',
+                      '${formatarNumero(alimento.qtd)} g | P: ${formatarNumero(alimento.proteinaR)} | C: ${alimento.carboidratoR} | G: ${alimento.gorduraR} | ${alimento.calorias} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
                     onTap: () async {
                       // aguarda o novo valor do alimento
                       final res = await Navigator.of(context).push<Alimento>(
                         MaterialPageRoute(
-                            builder: (context) => EditPage(alimento: alimento)),
+                            builder: (context) => EditarAlimentos(alimento: alimento)),
                       );
                       // Troca o alimento com base no indice
                       refeicao.trocar(index, res);
@@ -76,11 +79,11 @@ class HomePage extends StatelessWidget {
                     trailing: IconButton(
                       icon: const Icon(
                         Icons.delete_forever_rounded,
-                        size: 38,
                         color: Colors.redAccent,
                       ),
+                      iconSize: 38,
                       onPressed: () {
-                        refeicao.remove(alimento);
+                        refeicao.remover(alimento);
                       },
                     ),
                   );

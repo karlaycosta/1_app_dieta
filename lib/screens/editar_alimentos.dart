@@ -1,22 +1,29 @@
 import 'package:app_dieta/models/alimento.dart';
 import 'package:flutter/material.dart';
 
-class EditPage extends StatelessWidget {
+class EditarAlimentos extends StatelessWidget {
   final Alimento alimento;
-  const EditPage({required this.alimento, Key? key}) : super(key: key);
+  const EditarAlimentos({required this.alimento, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<Alimento> valor = ValueNotifier(alimento);
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.close_rounded),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         actions: [
-          IconButton(
-            icon: const Icon(Icons.pix, size: 38,),
-            onPressed: () {
-              // Retorna o novo alimento
-              Navigator.of(context).pop(valor.value);
-            },
+          Padding(
+            padding: const EdgeInsets.only(right: 12),
+            child: IconButton(
+              icon: const Icon(Icons.done_rounded),
+              onPressed: () {
+                // Retorna o novo alimento
+                Navigator.of(context).pop(valor.value);
+              },
+            ),
           ),
         ],
       ),
@@ -35,7 +42,7 @@ class EditPage extends StatelessWidget {
               valueListenable: valor,
               builder: (context, alimento, child) {
                 return Text(
-                  '${alimento.qtdBase}',
+                  '${alimento.qtd}',
                   style: const TextStyle(fontSize: 38),
                 );
               },
@@ -57,9 +64,9 @@ class EditPage extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  if (valor.value.qtdBase - 10 > 0) {
+                  if (valor.value.qtd - 10 > 0) {
                     valor.value = valor.value.copyWith(
-                      qtdBase: valor.value.qtdBase - 10,
+                      qtd: valor.value.qtd - 10,
                     );
                   }
                 },
@@ -77,7 +84,7 @@ class EditPage extends StatelessWidget {
                 ),
                 onPressed: () {
                   valor.value = valor.value.copyWith(
-                    qtdBase: valor.value.qtdBase + 10,
+                    qtd: valor.value.qtd + 10,
                   );
                 },
               ),
