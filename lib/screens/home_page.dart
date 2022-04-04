@@ -6,6 +6,7 @@ import 'package:app_dieta/models/refeicao.dart';
 import 'package:app_dieta/screens/editar_alimentos.dart';
 import 'package:app_dieta/screens/search.dart';
 import 'package:app_dieta/utils/helper.dart';
+import 'package:app_dieta/widget/texto_animado.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -14,8 +15,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final refeicao = Refeicao();
-    final dieta = Dieta();
-    print(dieta is InfoNutricional);
+    // final dieta = Dieta();
     return Scaffold(
       appBar: AppBar(
         title: const Text('App Dieta'),
@@ -44,12 +44,19 @@ class HomePage extends StatelessWidget {
                 height: 200,
                 color: Colors.green,
                 child: Center(
-                  child: Text(
-                    '${formatarNumero(refeicao.calorias)} Kcal',
-                    style: const TextStyle(
-                      fontSize: 64,
-                      color: Colors.white,
-                    ),
+                  child: Column(
+                    children: [
+                      TextoAnimado(
+                        end: refeicao.calorias,
+                      ),
+                      Text(
+                        '${formatarNumero(refeicao.calorias)} Kcal',
+                        style: const TextStyle(
+                          fontSize: 64,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -71,7 +78,8 @@ class HomePage extends StatelessWidget {
                       // aguarda o novo valor do alimento
                       final res = await Navigator.of(context).push<Alimento>(
                         MaterialPageRoute(
-                            builder: (context) => EditarAlimentos(alimento: alimento)),
+                            builder: (context) =>
+                                EditarAlimentos(alimento: alimento)),
                       );
                       // Troca o alimento com base no indice
                       refeicao.trocar(index, res);
