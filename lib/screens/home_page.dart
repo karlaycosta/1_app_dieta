@@ -9,6 +9,8 @@ import 'package:app_dieta/utils/helper.dart';
 import 'package:app_dieta/widget/texto_animado.dart';
 import 'package:flutter/material.dart';
 
+import '../widget/car_info_nutricional.dart';
+
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
 
@@ -40,26 +42,7 @@ class HomePage extends StatelessWidget {
         builder: (context, lista, child) {
           return Column(
             children: [
-              Container(
-                height: 200,
-                color: Colors.green,
-                child: Center(
-                  child: Column(
-                    children: [
-                      TextoAnimado(
-                        end: refeicao.calorias,
-                      ),
-                      Text(
-                        '${formatarNumero(refeicao.calorias)} Kcal',
-                        style: const TextStyle(
-                          fontSize: 64,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              CardInfoNutricional(infoNutricional: refeicao),
               ListView.separated(
                 shrinkWrap: true,
                 itemCount: lista.length,

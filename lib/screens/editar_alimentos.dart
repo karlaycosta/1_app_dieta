@@ -1,4 +1,5 @@
 import 'package:app_dieta/models/alimento.dart';
+import 'package:app_dieta/widget/texto_animado.dart';
 import 'package:flutter/material.dart';
 
 class EditarAlimentos extends StatelessWidget {
@@ -41,8 +42,10 @@ class EditarAlimentos extends StatelessWidget {
             child: ValueListenableBuilder<Alimento>(
               valueListenable: valor,
               builder: (context, alimento, child) {
-                return Text(
-                  '${alimento.qtd}',
+                return TextoAnimado(
+                  begin: alimento.qtd,
+                  end: alimento.qtd,
+                  pontuacao: ',',
                   style: const TextStyle(fontSize: 38),
                 );
               },

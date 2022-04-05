@@ -3,10 +3,18 @@ import 'package:flutter/widgets.dart';
 class TextoAnimado extends StatefulWidget {
   final double begin, end;
   final Duration duration;
+  final int casasDecimais;
+  final String pontuacao, prefix, sufix;
+  final TextStyle? style;
   const TextoAnimado({
     required this.end,
     this.begin = 0,
     this.duration = const Duration(milliseconds: 500),
+    this.casasDecimais = 2,
+    this.pontuacao = '.',
+    this.style,
+    this.prefix = '',
+    this.sufix = '',
     Key? key,
   }) : super(key: key);
 
@@ -32,8 +40,8 @@ class _TextoAnimadoState extends State<TextoAnimado> {
       duration: widget.duration,
       builder: (context, valor, child) {
         return Text(
-          valor.toStringAsFixed(2),
-          style: const TextStyle(fontSize: 32),
+          '${widget.prefix}${valor.toStringAsFixed(widget.casasDecimais).replaceFirst('.', widget.pontuacao)}${widget.sufix}',
+          style: widget.style,
         );
       },
     );
