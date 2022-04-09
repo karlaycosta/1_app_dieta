@@ -1,14 +1,9 @@
-import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/models/dieta.dart';
-import 'package:app_dieta/models/info_nutricional.dart';
-import 'package:app_dieta/models/reativa.dart';
 import 'package:app_dieta/models/refeicao.dart';
-import 'package:app_dieta/screens/editar_alimentos.dart';
-import 'package:app_dieta/screens/search.dart';
-import 'package:app_dieta/utils/helper.dart';
-import 'package:app_dieta/widget/texto_animado.dart';
+import 'package:app_dieta/screens/editar_refeicao.dart';
 import 'package:flutter/material.dart';
 
+import '../utils/helper.dart';
 import '../widget/car_info_nutricional.dart';
 
 class HomePage extends StatelessWidget {
@@ -16,56 +11,42 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final refeicao = Refeicao();
-    // final dieta = Dieta();
+    final dieta = Dieta();
     return Scaffold(
       appBar: AppBar(
         title: const Text('App Dieta'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.search_rounded),
-            onPressed: () async {
-              final alimento = await Navigator.of(context).push<Alimento>(
-                MaterialPageRoute(
-                  builder: (context) => const Search(),
-                ),
-              );
-              if (alimento != null) {
-                refeicao.adicionar(alimento);
-              }
-            },
-          ),
-        ],
       ),
-      body: ValueListenableBuilder<List<Alimento>>(
-        valueListenable: refeicao,
-        builder: (context, lista, child) {
+      body: ValueListenableBuilder<List<Refeicao>>(
+        valueListenable: dieta,
+        builder: (context, refeicoes, child) {
+          print('Builder..........');
           return Column(
             children: [
-              CardInfoNutricional(infoNutricional: refeicao),
+              CardInfoNutricional(infoNutricional: dieta),
               ListView.separated(
                 shrinkWrap: true,
-                itemCount: lista.length,
+                itemCount: refeicoes.length,
                 itemBuilder: (context, index) {
-                  final alimento = lista[index];
+                  final refeicao = refeicoes[index];
                   return ListTile(
                     title: Text(
-                      alimento.nome,
+                      '${index + 1}',
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${formatarNumero(alimento.qtd)} g | P: ${formatarNumero(alimento.proteinaR)} | C: ${alimento.carboidratoR} | G: ${alimento.gorduraR} | ${alimento.calorias} Kcal',
+                      '${formatarNumero(refeicao.qtd)} g | P: ${formatarNumero(refeicao.proteinas)} | C: ${refeicao.carboidratos} | G: ${refeicao.gorduras} | ${formatarNumero(refeicao.calorias)} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
                     onTap: () async {
                       // aguarda o novo valor do alimento
-                      final res = await Navigator.of(context).push<Alimento>(
+                      final res = await Navigator.of(context).push<Refeicao>(
                         MaterialPageRoute(
                             builder: (context) =>
-                                EditarAlimentos(alimento: alimento)),
+                                EditarRefeicao(refeicao: refeicao)),
                       );
                       // Troca o alimento com base no indice
-                      refeicao.trocar(index, res);
+                      print(res);
+                      dieta.trocar(index, res);
                     },
                     trailing: IconButton(
                       icon: const Icon(
@@ -74,7 +55,7 @@ class HomePage extends StatelessWidget {
                       ),
                       iconSize: 38,
                       onPressed: () {
-                        refeicao.remover(alimento);
+                        dieta.remover(refeicao);
                       },
                     ),
                   );
@@ -83,6 +64,16 @@ class HomePage extends StatelessWidget {
               ),
             ],
           );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add_rounded),
+        onPressed: () async {
+          final res = await Navigator.of(context).push<Refeicao>(
+            MaterialPageRoute(
+                builder: (context) => const EditarRefeicao()),
+          );
+          dieta.adicionar(res);
         },
       ),
     );

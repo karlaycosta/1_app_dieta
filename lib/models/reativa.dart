@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 
 abstract class Reativa<T extends InfoNutricional> extends ValueNotifier<List<T>>
     implements InfoNutricional {
-  Reativa() : super(<T>[]);
+  Reativa({List<T>? lista}) : super(lista ?? <T>[]);
 
-  void adicionar(T item) {
-    value.add(item);
-    notifyListeners();
+  void adicionar(T? item) {
+    if (item != null) {
+      value.add(item);
+      notifyListeners();
+    }
   }
 
   bool remover(T item) {
@@ -21,9 +23,12 @@ abstract class Reativa<T extends InfoNutricional> extends ValueNotifier<List<T>>
 
   void trocar(int indice, T? item) {
     if (item != null) {
+      print('Novo: ${item.qtd} | Antigo: ${value[indice].qtd}');
       if (item.qtd != value[indice].qtd) {
+        print('Etapa 2.......');
         value[indice] = item;
         notifyListeners();
+        print('Notificou.......');
       }
     }
   }

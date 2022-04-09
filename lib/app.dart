@@ -1,3 +1,4 @@
+import 'package:app_dieta/screens/editar_refeicao.dart';
 import 'package:app_dieta/screens/home_page.dart';
 import 'package:app_dieta/screens/search.dart';
 import 'package:flutter/material.dart';
