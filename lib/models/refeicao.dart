@@ -2,8 +2,17 @@ import 'package:app_dieta/models/alimento.dart';
 import 'package:app_dieta/models/reativa.dart';
 
 class Refeicao extends Reativa<Alimento> {
-  Refeicao({List<Alimento>? lista}) : super(lista: lista != null ? [...lista] : null);
-  // Refeicao copyWith(Refeicao antigaRefeicao) {
-  //   return Refeicao(lista: [...antigaRefeicao.value]);
-  // }
+  String nome;
+  Refeicao({
+    this.nome = '',
+  });
+
+  Refeicao copyWith() {
+    final novaRefeicao = Refeicao();
+    novaRefeicao.nome = nome;
+    // Passando o valor da lista de alimentos
+    // para a nova refeição
+    novaRefeicao.value = value.toList();
+    return novaRefeicao;
+  }
 }

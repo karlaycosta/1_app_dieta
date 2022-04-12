@@ -13,7 +13,9 @@ class EditarRefeicao extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _refeicao = Refeicao(lista: refeicao?.value);
+    final _refeicao = refeicao ?? Refeicao();
+    final _controller = TextEditingController();
+    _controller.text = _refeicao.nome;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Refeição'),
@@ -42,6 +44,26 @@ class EditarRefeicao extends StatelessWidget {
         builder: (context, lista, child) {
           return Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: 12,
+                  right: 12,
+                  top: 14,
+                  bottom: 2,
+                ),
+                child: TextField(
+                  autofocus: true,
+                  controller: _controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Nome da Refeição',
+                    hintText: 'Informe o nome da refeição',
+                  ),
+                  onChanged: (texto) {
+                    _refeicao.nome = texto;
+                  },
+                ),
+              ),
               CardInfoNutricional(infoNutricional: _refeicao),
               ListView.separated(
                 shrinkWrap: true,
@@ -54,7 +76,7 @@ class EditarRefeicao extends StatelessWidget {
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${formatarNumero(alimento.qtd)} g | P: ${formatarNumero(alimento.proteinaR)} | C: ${alimento.carboidratoR} | G: ${alimento.gorduraR} | ${alimento.calorias} Kcal',
+                      '${formatarNumero(alimento.qtd)} g | P: ${formatarNumero(alimento.proteinas)} | C: ${alimento.carboidratos} | G: ${alimento.gorduras} | ${alimento.calorias} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
                     onTap: () async {

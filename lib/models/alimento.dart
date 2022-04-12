@@ -23,10 +23,6 @@ class Alimento implements InfoNutricional{
   final DateTime criacao; // Data e hora da criação do registro
   final DateTime? atualizacao; // Data e hora da última atualização do registro
 
-  double get proteinaR => _arredondar(proteinas);
-  double get carboidratoR => _arredondar(carboidratos);
-  double get gorduraR => _arredondar(gorduras);
-
   // Propiedade calculada
   @override
   double get calorias {
@@ -96,9 +92,9 @@ class Alimento implements InfoNutricional{
     );
   }
 
-  double _arredondar(double valor) {
-    return double.parse(valor.toStringAsFixed(2));
-  }
+  // double _arredondar(double valor) {
+  //   return double.parse(valor.toStringAsFixed(2));
+  // }
 
   @override
   String toString() {

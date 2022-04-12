@@ -19,7 +19,6 @@ class HomePage extends StatelessWidget {
       body: ValueListenableBuilder<List<Refeicao>>(
         valueListenable: dieta,
         builder: (context, refeicoes, child) {
-          print('Builder..........');
           return Column(
             children: [
               CardInfoNutricional(infoNutricional: dieta),
@@ -30,11 +29,11 @@ class HomePage extends StatelessWidget {
                   final refeicao = refeicoes[index];
                   return ListTile(
                     title: Text(
-                      '${index + 1}',
+                      '${index + 1} ${refeicao.nome} | Itens: ${refeicao.value.length}',
                       style: const TextStyle(fontSize: 32),
                     ),
                     subtitle: Text(
-                      '${formatarNumero(refeicao.qtd)} g | P: ${formatarNumero(refeicao.proteinas)} | C: ${refeicao.carboidratos} | G: ${refeicao.gorduras} | ${formatarNumero(refeicao.calorias)} Kcal',
+                      '${formatarNumero(refeicao.qtd)} g | P: ${formatarNumero(refeicao.proteinas)} | C: ${refeicao.carboidratos} | G: ${formatarNumero(refeicao.gorduras)} | ${formatarNumero(refeicao.calorias)} Kcal',
                       style: const TextStyle(fontSize: 22),
                     ),
                     onTap: () async {
@@ -42,10 +41,9 @@ class HomePage extends StatelessWidget {
                       final res = await Navigator.of(context).push<Refeicao>(
                         MaterialPageRoute(
                             builder: (context) =>
-                                EditarRefeicao(refeicao: refeicao)),
+                                EditarRefeicao(refeicao: refeicao.copyWith())),
                       );
                       // Troca o alimento com base no indice
-                      print(res);
                       dieta.trocar(index, res);
                     },
                     trailing: IconButton(
